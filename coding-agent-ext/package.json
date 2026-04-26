@@ -1,0 +1,111 @@
+{
+  "name": "coding-agent",
+  "displayName": "Coding Agent 🤖",
+  "description": "AI coding assistant powered by Ollama or vLLM — improve, fix, generate, refactor, explain files.",
+  "version": "1.4.0",
+  "publisher": "hamza",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hamza/coding-agent"
+  },
+  "engines": { "vscode": "^1.70.0" },
+  "categories": ["Other", "Machine Learning"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "codingAgent.openPanel",    "title": "Coding Agent: Open Panel", "icon": "$(robot)" },
+      { "command": "codingAgent.improveFile",  "title": "Coding Agent: Improve Current File" },
+      { "command": "codingAgent.fixBug",       "title": "Coding Agent: Fix Bug in Current File" },
+      { "command": "codingAgent.addFeature",   "title": "Coding Agent: Add Feature to Current File" },
+      { "command": "codingAgent.refactor",     "title": "Coding Agent: Refactor Current File" },
+      { "command": "codingAgent.explain",      "title": "Coding Agent: Explain Current File" },
+      { "command": "codingAgent.generate",     "title": "Coding Agent: Generate New File" },
+      { "command": "codingAgent.chat",         "title": "Coding Agent: Chat About Current File" }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codingAgentSidebar",
+          "title": "Coding Agent",
+          "icon": "$(robot)"
+        }
+      ]
+    },
+    "views": {
+      "codingAgentSidebar": [
+        {
+          "type": "webview",
+          "id": "codingAgent.sidebarView",
+          "name": "Coding Agent"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        { "submenu": "codingAgent.submenu", "group": "codingAgent" }
+      ],
+      "codingAgent.submenu": [
+        { "command": "codingAgent.improveFile" },
+        { "command": "codingAgent.fixBug" },
+        { "command": "codingAgent.addFeature" },
+        { "command": "codingAgent.refactor" },
+        { "command": "codingAgent.explain" },
+        { "command": "codingAgent.chat" }
+      ]
+    },
+    "submenus": [
+      { "id": "codingAgent.submenu", "label": "🤖 Coding Agent" }
+    ],
+    "configuration": {
+      "title": "Coding Agent",
+      "properties": {
+        "codingAgent.mode": {
+          "type": "string",
+          "enum": ["cli", "server"],
+          "default": "cli",
+          "description": "cli → run main.py in a terminal (single user).  server → call the FastAPI server.py over HTTP (multi-user / team)."
+        },
+
+        "codingAgent.agentPath": {
+          "type": "string",
+          "default": "",
+          "description": "[cli mode] Absolute path to your coding-agent folder (where main.py lives). e.g. C:\\Users\\Hamza\\Desktop\\coding-agent"
+        },
+        "codingAgent.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "[cli mode] Python executable to use (python, python3, or full path)."
+        },
+
+        "codingAgent.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "[server mode] Base URL of the running server.py instance. e.g. http://192.168.1.10:8080"
+        },
+        "codingAgent.serverApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "[server mode] Optional Bearer token set in SERVER_API_KEY on the server. Leave empty if auth is disabled."
+        },
+
+        "codingAgent.backend": {
+          "type": "string",
+          "enum": ["ollama", "vllm"],
+          "default": "ollama",
+          "description": "Which LLM backend the agent uses. Shown in the sidebar — does NOT change the server config directly, but is displayed for reference."
+        },
+        "codingAgent.ollamaModel": {
+          "type": "string",
+          "default": "codeqwen:7b",
+          "description": "Ollama model name (shown in sidebar)."
+        },
+        "codingAgent.vllmModel": {
+          "type": "string",
+          "default": "Qwen/CodeQwen1.5-7B-Chat",
+          "description": "vLLM model name (shown in sidebar)."
+        }
+      }
+    }
+  }
+}
