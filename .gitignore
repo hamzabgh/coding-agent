@@ -30,7 +30,6 @@ ENV/
 *.bak
 
 # ── VS Code extension build ───────────────────────────────────────────────────
-*.vsix
 coding-agent-ext/node_modules/
 coding-agent-ext/.vscode-test/
 
